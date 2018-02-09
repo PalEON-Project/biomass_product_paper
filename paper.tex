@@ -58,7 +58,6 @@
 \usepackage{geometry}
 \geometry{verbose,tmargin=1in,bmargin=1in,lmargin=1in,rmargin=1in}
 \usepackage{color}
-\usepackage{graphicx}
 \usepackage[authoryear]{natbib}
 \usepackage[unicode=true]
  {hyperref}
@@ -109,6 +108,10 @@ Kelly Heilman, Dave Moore}
 \lyxaddress{\newpage}
 \begin{quote}
 
+
+NOTE: much of this text is directly from the composition paper and
+needs substantial rewording and addition of analogous content for
+FIA.
 \end{quote}
 
 \begin{abstract}
@@ -248,7 +251,7 @@ the full set of townships covering the domain; the TPS data for some
 townships were lost, incomplete, or have not been located \citep{Cogb:etal:2002}. 
 
 \begin{figure}
-\label{fig:domain}\includegraphics[scale=1.3,bb = 0 0 200 100, draft, type=eps]{research/jmac/composition_paper/fig1.pdf}
+\label{fig:domain}
 
 \caption{Spatial domain of the northeastern United States, with locations with
 data shown in gray. Locations are grid cells in midwestern portion
@@ -344,6 +347,23 @@ the statistical models}. For the eastern subdomain we use the eastern-most
 and 17 rows of cells in the south, as these grid cells are outside
 of the states containing data.
 
+Data processing steps:
+\begin{itemize}
+\item See Goring et al. for processing of upper Midwest data; similar steps
+for IL/IN/So MI; result is tree dbh for trees at each PLS point
+\item See Goring et al. for methods to estimate density at each point based
+on distance to survey point and various correction factors (cite Cogbill
+in press)
+\item scale dbh to biomass per tree
+\item scale by point density to get biomass per unit area for each taxon
+present at a point
+\item aggregate biomass within grid cells:
+
+\begin{itemize}
+\item proportion of PLS points within each cell containing a given taxon
+\item average biomass per taxon across occupied points
+\end{itemize}
+\end{itemize}
 
 \subsection{Forest Inventory and Analysis}
 
@@ -352,6 +372,28 @@ in the focal states, with no data prior to 1999 used because of changes
 in FIA methodology at that point in time, which make it difficult
 to be sure we are not using multiple surveys from a single plot. Also
 this limits the degree of time transgressiveness. 
+
+Data processing steps:
+\begin{itemize}
+\item download from DataMart
+\item based on MOU, assign plots to PalEON grid cells
+\item scale dbh to biomass per tree
+\item compute total biomass per taxon within each FIA plot
+\item aggregate biomass within grid cells:
+
+\begin{itemize}
+\item proportion of FIA plots within each cell containing a given taxon
+\item average biomass per taxon across occupied cells
+\end{itemize}
+\end{itemize}
+
+\subsection{Allometric scaling}
+
+{[}tradeoff of taxon resolution vs. ability to use random site effects
+difficulty of capturing spatial patterns in allometry, so we capture
+variability in individual tree allometry but have spatial biases and
+overall bias from uncertainty in allometry given limited spatial info
+and limited data in allometry papers use of component 6 {]}
 
 
 \section{Statistical model\label{sec:Statistical-model}}
@@ -481,7 +523,16 @@ the model.}
 
 \subsection{Assessment of smoothing}
 
+{[}metric for CV should be between log(biomass) and biomass given
+that we don't care about very small changes in low biomass but also
+don't want to overemphasize errors in large biomass - show both in
+terms of MSE for biomass and log(biomass)? also consider prediction
+coverage{]}
 
+{[}do in terms of biomass not (a) presence and (b) biomass when non-zero
+given the two-step model is just a device to handle data distribution.
+May need to have bivariate grid of gamma values for both models or
+it may be that focusing on potential biomass part is enough {]}
 
 
 \section{Scientific Results}
@@ -511,9 +562,7 @@ as pointwise estimates of uncertainty (Fig. \ref{fig:select_maps}).
 We also present the posterior means for all 23 taxa (Fig. \ref{fig:all_predictions}).
 
 \begin{figure}
-\includegraphics[scale=0.75,bb = 0 0 200 100, draft, type=eps]{research/jmac/composition_paper/figXXX.pdf}
-
-\hspace{4mm}\includegraphics[scale=0.16,bb = 0 0 200 100, draft, type=eps]{research/jmac/composition_paper/legendRaw.pdf}\hspace{4mm}\includegraphics[scale=0.16,bb = 0 0 200 100, draft, type=eps]{research/jmac/composition_paper/legendProp.pdf}\hspace{3.5mm}\includegraphics[scale=0.16,bb = 0 0 200 100, draft, type=eps]{research/jmac/composition_paper/legendSD.pdf}
+\hspace{4mm}\hspace{4mm}\hspace{3.5mm}
 
 \caption{Empirical proportions from raw data (column 1), predictions in the
 form of posterior means (column 2) and uncertainty estimates in the
@@ -523,8 +572,6 @@ of prediction (column 3) for select taxa. \label{fig:select_maps}}
 
 
 \begin{figure}
-\includegraphics[scale=0.8,bb = 0 0 200 100, draft, type=eps]{research/jmac/composition_paper/figYYY.pdf}
-
 \caption{Predictions (posterior means) for all taxa over the entire domain.\label{fig:all_predictions}}
 
 

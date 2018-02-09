@@ -950,6 +950,45 @@ Our domain is a rectangle covering all of the states using a metric Albers
  south, as these grid cells are outside of the states containing data.
 \end_layout
 
+\begin_layout Standard
+Data processing steps:
+\end_layout
+
+\begin_layout Itemize
+See Goring et al.
+ for processing of upper Midwest data; similar steps for IL/IN/So MI; result
+ is tree dbh for trees at each PLS point
+\end_layout
+
+\begin_layout Itemize
+See Goring et al.
+ for methods to estimate density at each point based on distance to survey
+ point and various correction factors (cite Cogbill in press)
+\end_layout
+
+\begin_layout Itemize
+scale dbh to biomass per tree
+\end_layout
+
+\begin_layout Itemize
+scale by point density to get biomass per unit area for each taxon present
+ at a point
+\end_layout
+
+\begin_layout Itemize
+aggregate biomass within grid cells:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+proportion of PLS points within each cell containing a given taxon
+\end_layout
+
+\begin_layout Itemize
+average biomass per taxon across occupied points
+\end_layout
+
+\end_deeper
 \begin_layout Subsection
 Forest Inventory and Analysis
 \end_layout
@@ -961,6 +1000,53 @@ We use data from the most recent data collection at each FIA plot in the
  are not using multiple surveys from a single plot.
  Also this limits the degree of time transgressiveness.
  
+\end_layout
+
+\begin_layout Standard
+Data processing steps:
+\end_layout
+
+\begin_layout Itemize
+download from DataMart
+\end_layout
+
+\begin_layout Itemize
+based on MOU, assign plots to PalEON grid cells
+\end_layout
+
+\begin_layout Itemize
+scale dbh to biomass per tree
+\end_layout
+
+\begin_layout Itemize
+compute total biomass per taxon within each FIA plot
+\end_layout
+
+\begin_layout Itemize
+aggregate biomass within grid cells:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+proportion of FIA plots within each cell containing a given taxon
+\end_layout
+
+\begin_layout Itemize
+average biomass per taxon across occupied cells
+\end_layout
+
+\end_deeper
+\begin_layout Subsection
+Allometric scaling
+\end_layout
+
+\begin_layout Standard
+[tradeoff of taxon resolution vs.
+ ability to use random site effects difficulty of capturing spatial patterns
+ in allometry, so we capture variability in individual tree allometry but
+ have spatial biases and overall bias from uncertainty in allometry given
+ limited spatial info and limited data in allometry papers use of component
+ 6 ]
 \end_layout
 
 \begin_layout Section
@@ -1256,7 +1342,17 @@ Assessment of smoothing
 \end_layout
 
 \begin_layout Chunk
+[metric for CV should be between log(biomass) and biomass given that we
+ don't care about very small changes in low biomass but also don't want
+ to overemphasize errors in large biomass - show both in terms of MSE for
+ biomass and log(biomass)? also consider prediction coverage]
+\end_layout
 
+\begin_layout Standard
+[do in terms of biomass not (a) presence and (b) biomass when non-zero given
+ the two-step model is just a device to handle data distribution.
+ May need to have bivariate grid of gamma values for both models or it may
+ be that focusing on potential biomass part is enough ]
 \end_layout
 
 \begin_layout Section
@@ -1348,14 +1444,6 @@ hspace{4mm}
 \end_inset
 
 
-\begin_inset Graphics
-	filename research/jmac/composition_paper/legendRaw.pdf
-	lyxscale 25
-	scale 16
-
-\end_inset
-
-
 \begin_inset ERT
 status open
 
@@ -1369,14 +1457,6 @@ hspace{4mm}
 \end_inset
 
 
-\begin_inset Graphics
-	filename research/jmac/composition_paper/legendProp.pdf
-	lyxscale 25
-	scale 16
-
-\end_inset
-
-
 \begin_inset ERT
 status open
 
@@ -1386,14 +1466,6 @@ status open
 \backslash
 hspace{3.5mm}
 \end_layout
-
-\end_inset
-
-
-\begin_inset Graphics
-	filename research/jmac/composition_paper/legendSD.pdf
-	lyxscale 25
-	scale 16
 
 \end_inset
 
