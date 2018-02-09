@@ -1,0 +1,1644 @@
+#LyX 2.1 created this file. For more info see http://www.lyx.org/
+\lyxformat 474
+\begin_document
+\begin_header
+\textclass article
+\begin_preamble
+\usepackage{times}
+\usepackage{graphics,natbib}
+
+\newcommand{\matern}{Mat\'{e}rn }
+\newcommand{\N}{\mathcal{N}}
+\end_preamble
+\use_default_options true
+\begin_modules
+knitr
+\end_modules
+\maintain_unincluded_children false
+\language english
+\language_package default
+\inputencoding auto
+\fontencoding global
+\font_roman default
+\font_sans default
+\font_typewriter default
+\font_math auto
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100
+\font_tt_scale 100
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\paperfontsize 12
+\spacing single
+\use_hyperref false
+\papersize default
+\use_geometry true
+\use_package amsmath 1
+\use_package amssymb 1
+\use_package cancel 1
+\use_package esint 1
+\use_package mathdots 1
+\use_package mathtools 1
+\use_package mhchem 1
+\use_package stackrel 1
+\use_package stmaryrd 1
+\use_package undertilde 1
+\cite_engine natbib
+\cite_engine_type authoryear
+\biblio_style plainnat
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\justification true
+\use_refstyle 1
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\leftmargin 1in
+\topmargin 1in
+\rightmargin 1in
+\bottommargin 1in
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation default
+\quotes_language english
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Title
+Statistically-estimated biomass for the northeastern United States: modern
+ and 
+\begin_inset Newline newline
+\end_inset
+
+Euro-American settlement-era
+\end_layout
+
+\begin_layout Author
+Christopher J.
+ Paciorek
+\begin_inset script superscript
+
+\begin_layout Plain Layout
+1,*
+\end_layout
+
+\end_inset
+
+, 
+\begin_inset Newline newline
+\end_inset
+
+[in no particular order] Simon J.
+ Goring, Charles V.
+ Cogbill, Mike Dietze, John W.
+ Williams, Andria Dawson, Jody A.
+ Peters, Jun Zhu, Xiaoping Feng, and Jason S.
+ McLachlan
+\begin_inset script superscript
+
+\begin_layout Plain Layout
+7
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Address
+\begin_inset script superscript
+
+\begin_layout Plain Layout
+1
+\end_layout
+
+\end_inset
+
+Department of Statistics, University of California, Berkeley, California,
+ USA
+\end_layout
+
+\begin_layout Address
+\begin_inset script superscript
+
+\begin_layout Plain Layout
+2
+\end_layout
+
+\end_inset
+
+fill in other authors: check in with David Mladenoff, Kelly Heilman, Dave
+ Moore
+\end_layout
+
+\begin_layout Address
+\begin_inset script superscript
+
+\begin_layout Plain Layout
+*
+\end_layout
+
+\end_inset
+
+Corresponding author; E-mail: paciorek@stat.berkeley.edu
+\end_layout
+
+\begin_layout Address
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+newpage
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Quote
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+Short title: Settlement-era northeastern U.S.
+ tree composition
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Flex Chunk
+status open
+
+\begin_layout Plain Layout
+
+\begin_inset Argument 1
+status open
+
+\begin_layout Plain Layout
+setup, echo=FALSE
+\end_layout
+
+\end_inset
+
+inputDir <- 'output'
+\end_layout
+
+\begin_layout Plain Layout
+
+version <- 0.1
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Abstract
+[Edit to transform to biomass not composition] We present a gridded 8 km-resolut
+ion data product of the estimated biomass of tree taxa at the time of Euro-Ameri
+can settlement of the northeastern United States and the statistical methodology
+ used to produce the product from trees recorded by land surveyors.
+ .
+ The data come from settlement-era public survey records that are transcribed
+ and then aggregated spatially, giving count data.
+ The domain is divided into two regions, eastern (Maine to Ohio) and midwestern
+ (Indiana to Minnesota).
+ Public Land Survey point data in the midwestern region (ca.
+ 0.8-km resolution) are aggregated to a regular 8 km grid, while data in
+ the eastern region, from Town Proprietor Surveys, are aggregated at the
+ township level in irregularly-shaped local administrative units.
+ The product is based on a Bayesian statistical model fit to the count data
+ that estimates composition on a regular 8 km grid across the entire domain.
+ The statistical model is designed to handle data from both the regular
+ grid and the irregularly-shaped townships and allows us to estimate composition
+ at locations with no data and to smooth over noise caused by limited counts
+ in locations with data.
+ Critically, the model also allows us to quantify uncertainty in our composition
+ estimates, making the product suitable for applications employing data
+ assimilation.
+ We expect this data product to be useful for understanding the state of
+ vegetation in the northeastern United States prior to large-scale Euro-American
+ settlement.
+ In addition to specific regional questions, the data product can also serve
+ as a baseline against which to investigate how forests and ecosystems change
+ after intensive settlement.
+ The data product is being made available at the NIS data portal as version
+ 1.0.
+\end_layout
+
+\begin_layout Abstract
+Keywords: biogeography, biomass, old-growth forests, spatial modeling, Bayesian
+ statistical model, vegetation mapping
+\end_layout
+
+\begin_layout Section
+Introduction
+\end_layout
+
+\begin_layout Standard
+Historical datasets provide critical context to understand forest ecology.
+ They allow researchers to define `baseline' conditions for conservation
+ management, to understand ecosystem processes at decadal and centennial
+ scales, to track forest responses to shifting climates, and, particularly
+ in regions with widespread land use change, to understand the extent to
+ which forests after conversion and regeneration differ from the original
+ forest cover.
+\end_layout
+
+\begin_layout Standard
+Euro-American settlement and subsequent land use change occurred in a time-trans
+ient fashion across North America and were accompanied by land surveys needed
+ to demarcate land for land tenure and use.
+ Various systems were used by surveyors to locate legal boundary markers,
+ usually by recording and marking trees adjacent to survey markers.
+ These data provide vegetation information that can be mapped and used quantitat
+ively to represent the period of settlement.
+ Early surveys (from 1620 until 1825) in the northeastern United States
+ provide spatially-aggregated data at the township level 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+citep{Cogb:etal:2002,thompson2013four}
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+, with typical township size on the order of 200 
+\begin_inset Formula $\mbox{km}^{2}$
+\end_inset
+
+ and no information about the locations of individual trees; we refer to
+ these as the Town Proprietor Survey (TPS).
+ Later surveys after the establishment of the U.S.
+ Public Land Survey System (PLS) by the General Land Office (GLO) provide
+ point-level data along a regular grid, with one-half mile (800 m) spacing,
+ for Ohio and westward during the period 1785 to 1907 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+citep{bourdo1956review,pattison1957beginnings,schulte2001original,goring2015comp
+osition}
+\end_layout
+
+\end_inset
+
+.
+ At each point 2-4 trees were identified, and the common name, diameter
+ at breast height, and distance and bearing from the point were recorded.
+ Survey instructions during the PLS varied through time and by point type.
+ Accounting for this variation requires data screening to maximize consistency
+ among points and the application of spatially-varying correction factors
+ 
+\begin_inset CommandInset citation
+LatexCommand citet
+key " goring2015composition"
+
+\end_inset
+
+ to accurately assess tree stem density, basal area and biomass from the
+ early settlement records, but the impact on composition estimates is limited
+ 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+citep{liu2011broadscale}
+\end_layout
+
+\end_inset
+
+.
+ Surveyors sometimes used ambiguous common names, which requires matching
+ to scientific names and standardization 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+citep{mladenoff2002narrowing,goring2015composition}
+\end_layout
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+Logging, agriculture, and land abandonment have left an indelible mark on
+ forests in the northeastern United States 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+citep{foster1998land,rhemtulla2009legacies,thompson2013four,goring2015compositio
+n}
+\end_layout
+
+\end_inset
+
+.
+ However most studies have assessed these effects in individual states or
+ smaller domains 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+citep{friedman2005regional,rhemtulla2009historical}
+\end_layout
+
+\end_inset
+
+ and with various spatial resolutions, from townships (36 square miles)
+ to forest zones of hundreds or thousands of square miles.
+ 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "goring2015composition"
+
+\end_inset
+
+ provide a new dataset of forest composition, biomass, and stem density
+ based on PLS data for the upper Midwest that is resolved to an 8 km by
+ 8 km grid cell scale, providing broad spatial coverage at a spatial scale
+ that can be compared to modern forests using Forest Inventory and Analysis
+ products 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+citep{gray2012forest}
+\end_layout
+
+\end_inset
+
+.
+ Combined with additional, coarsely-sampled PLS data from Illinois and Indiana,
+ newly-digitized data from southern Michigan, and with the TPS data, this
+ gives us raw data for much of the northeastern United States.
+ However, there are several limitations of using the raw data that can be
+ alleviated by the use of a statistical model to develop a statistically-estimat
+ed data product.
+ First, the PLS and TPS data only provide estimates of within-cell variance
+ that do not account for information from nearby locations.
+ Second, there are data gaps: the available digitized data from Illinois
+ and Indiana represent a small fraction of those states, and missing townships
+ are common in the TPS data.
+ Third, the TPS and PLS data have fundamentally different sampling design
+ and spatial resolution.
+ Our statistical model allows us to provide a spatially-complete data product
+ of settlement-era tree composition for a common 8 km grid with uncertainty
+ across the northeastern U.S.
+\end_layout
+
+\begin_layout Standard
+In Section 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sec:Data"
+
+\end_inset
+
+ we describe the data sources, while Section 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sec:Statistical-model"
+
+\end_inset
+
+ describes our statistical models.
+ In Section 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sec:Model-comparison"
+
+\end_inset
+
+ we quantitatively compare competing statistical specifications, and in
+ Section 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sec:Data-product"
+
+\end_inset
+
+ we describe the final data product.
+ In Section 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sec:Discussion"
+
+\end_inset
+
+ we discuss 
+\color red
+the uncertainties estimated by 
+\color inherit
+and the limitations of the statistical model, and we list related data products
+ under development.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+Properly assessing uncertainty in ecological data is imperative to understanding
+ and modelling ecological processes 
+\begin_inset CommandInset citation
+LatexCommand citep
+key "cressie2009accounting"
+
+\end_inset
+
+.
+ In this way, a model that can account for the spatial structure of the
+ underlying PLS and TPS data, and provide reliable estimates of uncertainty
+ across the northeastern United States, provides a valuable tool for researchers
+ interested in the ecological structure and function of forests at longer
+ time scales.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Data
+\begin_inset CommandInset label
+LatexCommand label
+name "sec:Data"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Public Land Survey
+\end_layout
+
+\begin_layout Standard
+The raw data were obtained from land division survey records collated and
+ digitized from across the northeastern U.S.
+ by a number of researchers (Fig.
+ 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Spatial-domain"
+
+\end_inset
+
+).
+ For the states of Minnesota, Wisconsin, Illinois, Indiana, and Michigan
+ (the midwestern subdomain), digitized data are available at PLS survey
+ point locations and have been aggregated to a regular 8 km grid in the
+ Albers projection.
+ (Note that for Indiana and Illinois, at the moment trees are associated
+ with township centroids and then assigned to 8 km grid cells based on the
+ centroid, but in the near future we will have point locations available
+ for each tree.) For the states of Ohio, Pennsylvania, New Jersey, New York
+ and the six New England states (the eastern subdomain), data are aggregated
+ at the township level.
+ 
+\color red
+We make predictions for all of the states listed above; these constitute
+ our core domain.
+ 
+\color inherit
+There are also data from a single township in Quebec and a single township
+ in northern Delaware
+\color red
+; these data help inform predictions in nearby locations within our core
+ domain, but predictions are not made for Quebec or Delaware
+\color inherit
+.
+ Digitization of PLS data in Minnesota, Wisconsin and Michigan is essentially
+ complete, with PLS data for nearly all 8 km grid cells, but data in Illinois
+ and Indiana represent a sample of the full set of grid cells, with survey
+ record transcription ongoing.
+ Data for the eastern states are available for a subset of the full set
+ of townships covering the domain; the TPS data for some townships were
+ lost, incomplete, or have not been located 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+citep{Cogb:etal:2002}
+\end_layout
+
+\end_inset
+
+.
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:domain"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Spatial domain of the northeastern United States, with locations with data
+ shown in gray.
+ Locations are grid cells in midwestern portion and townships in eastern
+ portion.
+ In addition to locations without data being indicated in white, grid cells
+ completely covered in water are white (e.g., a few locations in the northwestern
+ portion of the domain in the states of Minnesota and Wisconsin).
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Spatial-domain"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Note that surveys occurred over a period of more than 200 years as European
+ colonists (before U.S.
+ independence) and the United States settled what is now the northeastern
+ and midwestern United States.
+ Our estimates are for the period of settlement represented by the survey
+ data and therefore are time-transgressive; they do not represent any single
+ point in time across the domain, but rather the state of the landscape
+ at the time just prior to widespread Euro-American settlement and land
+ use 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+citep{Whit:1996,Cogb:etal:2002}
+\end_layout
+
+\end_inset
+
+.
+ These forest composition datasets do include the effects of Native American
+ land use and early Euro-American settlement activities 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+citep[e.g.,][]{Blac:etal:2006}
+\end_layout
+
+\end_inset
+
+, but it is likely that the imprint of this earlier land use is highly concentra
+ted rather than spatially extensive 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+citep{munoz2014defining}
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+Extensive details on the upper Midwest (Minnesota, Wisconsin, Michigan)
+ data and processing steps are available 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+cite{goring2015composition}
+\end_layout
+
+\end_inset
+
+; key elements include the use of only corner points, the use of only the
+ two closest trees at each corner point, spatially-varying correction factors
+ for sampling effort, and a standardized taxonomy table.
+ The lower Midwest (Illinois, Indiana) data were purchased from the Indiana
+ State Archives (Indiana) and Hubtack Document Resources (hubtack.com; Illinois)
+ and processed using similar steps as for the upper Midwest data.
+ Digitization of the Illinois and Indiana data is still underway, so many
+ grid cells contained no data at the time the statistical model was fit.
+ Note that the number of trees per grid cell varies depending on the number
+ of survey points in a cell, with an average of 124 trees per cell.
+ The gridded data at the 8 km resolution for the midwest subdomain are available
+ through the NIS data portal 
+\color red
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+citep{Gori:etal:data:2016}
+\end_layout
+
+\end_inset
+
+
+\color inherit
+.
+ The TPS data were compiled by C.V.
+ Cogbill from a myriad of archival sources representing land division surveys
+ conducted in connection with local settlement
+\color red
+ and are available through the NIS data portal 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+citep{Cogb:dataNE:2016,Cogb:dataOH:2016}
+\end_layout
+
+\end_inset
+
+
+\color inherit
+.
+ 
+\end_layout
+
+\begin_layout Standard
+The aggregation into taxonomic groups is primarily at the genus level but
+ is at the species level in some cases of monospecific genera.
+ We model the following 22 taxa plus an 
+\begin_inset Quotes eld
+\end_inset
+
+other hardwood
+\begin_inset Quotes erd
+\end_inset
+
+ category: Atlantic white cedar (
+\emph on
+Chamaecyparis thyoides
+\emph default
+), Ash (
+\emph on
+Fraxinus spp.
+\emph default
+), Basswood (
+\emph on
+Tilia americana
+\emph default
+), Beech (
+\emph on
+Fagus grandifolia)
+\emph default
+, Birch (
+\emph on
+Betula spp.
+\emph default
+), Black gum/sweet gum (
+\emph on
+Nyssa sylvatica
+\emph default
+ and 
+\emph on
+Liquidambar styraciflua
+\emph default
+), Cedar/juniper (
+\emph on
+Juniperus virginiana
+\emph default
+ and 
+\emph on
+Thuja occidentalis
+\emph default
+), Cherry (
+\emph on
+Prunus spp.
+\emph default
+), Chestnut (
+\emph on
+Castanea dentata
+\emph default
+), Dogwood (
+\emph on
+Cornus spp.
+\emph default
+), Elm (
+\emph on
+Ulmus spp.
+\emph default
+), Fir (
+\emph on
+Abies balsamea
+\emph default
+), Hemlock (
+\emph on
+Tsuga canadensis
+\emph default
+), Hickory (
+\emph on
+Carya spp.
+\emph default
+), Ironwood (
+\emph on
+Carpinus caroliniana
+\emph default
+ and 
+\emph on
+Ostrya virginiana
+\emph default
+), Maple (
+\emph on
+Acer spp.
+\emph default
+), Oak (
+\emph on
+Quercus spp.
+\emph default
+), Pine (
+\emph on
+Pinus spp.
+\emph default
+), Poplar/tulip poplar (
+\emph on
+Populus spp.
+\emph default
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+~
+\end_layout
+
+\end_inset
+
+and 
+\emph on
+Liriodendron tulipifera
+\emph default
+), Spruce (
+\emph on
+Picea spp.
+\emph default
+), Tamarack (
+\emph on
+Larix laricina
+\emph default
+), and Walnut (
+\emph on
+Juglans spp.
+\emph default
+).
+ Note that in several cases (black gum/sweet gum, ironwood, poplar/tulip
+ poplar, cedar/juniper), because of ambiguity in the common tree names used
+ by surveyors, a group represents trees from different genera or even families.
+ For the midwestern subdomain we do not fit statistical models for Atlantic
+ white cedar and chestnut as these species have 0 and 7 trees present, respectiv
+ely.
+ The taxa grouped into the other hardwood category are those for which fewer
+ than roughly 2000 trees were present in the dataset; however, we include
+ Atlantic white cedar explicitly despite it only having 336 trees in the
+ dataset because of specific ecological interest in Atlantic white cedar
+ wetlands.
+ 
+\end_layout
+
+\begin_layout Standard
+Diameters are only recorded in the PLS data.
+ Although surveyors avoided using small trees, there was no consistent lower
+ diameter limit.
+ The PLS data generally represent trees greater than 8 inches (~20 cm) diameter
+ at breast height (dbh), but with some trees as small as 1 inch dbh (smaller
+ trees were much more common in far northern Minnesota).
+ TPS data have no information about dbh, but the trees were large enough
+ to blaze and are presumed to be relatively large trees useful for marking
+ property boundaries.
+\end_layout
+
+\begin_layout Standard
+There are approximately 860,000 trees in the midwestern subdomain and 420,000
+ trees in the eastern subdomain.
+ In the midwestern subdomain, oak is the most common taxon and pine the
+ second most common, while in the eastern subdomain oak is the most common
+ and beech the second most common.
+\end_layout
+
+\begin_layout Standard
+Our domain is a rectangle covering all of the states using a metric Albers
+ (Great Lakes and St.
+ Lawrence) projection (PROJ4: EPSG:3175), with the rectangle split into
+ 8 km cells, arranged in a 296 by 180 grid of cells, with the centroid of
+ the cell in the southwest corner located at (-71000 m, 58000 m).
+ For the midwestern subdomain we use the western-most 146 by 180 grid of
+ cells
+\color red
+ when fitting the statistical models
+\color inherit
+.
+ For the eastern subdomain we use the eastern-most 180 by 180 grid of cells
+ and then omit 23 rows of cells in the north and 17 rows of cells in the
+ south, as these grid cells are outside of the states containing data.
+\end_layout
+
+\begin_layout Subsection
+Forest Inventory and Analysis
+\end_layout
+
+\begin_layout Standard
+We use data from the most recent data collection at each FIA plot in the
+ focal states, with no data prior to 1999 used because of changes in FIA
+ methodology at that point in time, which make it difficult to be sure we
+ are not using multiple surveys from a single plot.
+ Also this limits the degree of time transgressiveness.
+ 
+\end_layout
+
+\begin_layout Section
+Statistical model
+\begin_inset CommandInset label
+LatexCommand label
+name "sec:Statistical-model"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The major challenge of modeling biomass data is that biomass is positive-valued
+ but continuous, for which limited statistical distributions are available.
+\end_layout
+
+\begin_layout Standard
+In early efforts we considered a Tweedie model but encountered computational
+ difficulties in model convergence and concerns about how well the model
+ fit.
+ Given this we developed a two-stage model to address the challenge of zero
+ inflation in non-negatively valued distributions.
+\end_layout
+
+\begin_layout Standard
+There are many zero-inflated models in the statistical literature, most
+ focusing on count or proportional data [need some lit review].
+ [look for zero-inflated continuous lit].
+ Our model was motivated by the biological insight that local conditions
+ may prevent a taxon from occurring in an area even though the taxon may
+ be present at high density nearby.
+ Thus we combine a model for 
+\begin_inset Quotes eld
+\end_inset
+
+potential biomass
+\begin_inset Quotes erd
+\end_inset
+
+, which reflects the large-spatial-scale patterns in biomass with a model
+ for 
+\begin_inset Quotes eld
+\end_inset
+
+occupancy
+\begin_inset Quotes erd
+\end_inset
+
+, which reflects the propensity for a given forest stand to contain the
+ taxon.
+ This model allows for zero inflation with a small value for the occupancy
+ model in a given location.
+\end_layout
+
+\begin_layout Standard
+Let 
+\begin_inset Formula $N(s)$
+\end_inset
+
+ be the number of PLS sample points or FIA plots in grid cell 
+\begin_inset Formula $s$
+\end_inset
+
+.
+ Let 
+\begin_inset Formula $n_{p}(s)$
+\end_inset
+
+ be the number of points in the cell that have one or more trees of taxon
+ 
+\begin_inset Formula $p$
+\end_inset
+
+.
+ Let 
+\begin_inset Formula $\bar{Y}_{p}(s)$
+\end_inset
+
+ be the average biomass for taxon 
+\begin_inset Formula $p$
+\end_inset
+
+ calculated ONLY from the 
+\begin_inset Formula $n_{p}(s)$
+\end_inset
+
+ points at which the taxon is present.
+ In other words, 
+\begin_inset Formula $\bar{Y}_{p}(s)=\frac{1}{n_{p}(s)}\sum_{i=1}^{n_{p}(s)}Y_{ip}(s)$
+\end_inset
+
+ where 
+\begin_inset Formula $i$
+\end_inset
+
+ indexes sites within cell 
+\begin_inset Formula $s$
+\end_inset
+
+, 
+\begin_inset Formula $i=1,\ldots,n_{p}(s)$
+\end_inset
+
+.
+ Let 
+\begin_inset Formula $m_{p}(s)$
+\end_inset
+
+ be the potential (log) biomass process, evaluated at grid cell 
+\begin_inset Formula $s$
+\end_inset
+
+, and 
+\begin_inset Formula $\theta_{p}(s)$
+\end_inset
+
+ be the occupancy patial process.
+ The biomass in a cell can then be calculated as 
+\begin_inset Formula $b_{p}(s)=\theta_{p}(s)\exp(m_{p}(s))$
+\end_inset
+
+, namely weighting the average biomass in “occupied patches” by the proportion
+ of patches that have the taxon.
+ 
+\end_layout
+
+\begin_layout Standard
+Let’s first consider the occupancy model.
+ The likelihood is binomial, 
+\begin_inset Formula $n_{p}(s)\sim\mbox{Bin}(N(s),\theta_{p}(s)$
+\end_inset
+
+.
+ Note that the occupancy model represents the occupancy of patches within
+ a grid cell, and that 
+\begin_inset Formula $\sum_{p}\theta_{p}(s)>1$
+\end_inset
+
+ because two taxa will often “occupy” the same patch since most PLS points
+ have two trees.
+ Next consider the (log) biomass process.
+ The likelihood is taken to be normal, 
+\begin_inset Formula $\mbox{\log}\bar{Y}_{p}(s)\sim\mbox{N}(m_{p}(s),\frac{\sigma_{p}^{2}}{n_{p}(s)})$
+\end_inset
+
+.
+ Note that this likelihood accounts for heteroscedasticity related to the
+ number of points at which the taxon is observed (not the number of PLS
+ points in the cell).
+ 
+\end_layout
+
+\begin_layout Standard
+This two-stage model is able to account for structural zeros (the taxon
+ is not present because local conditions prevent it) and the resulting zero
+ inflation through the occupancy model while also able to capture the smooth
+ larger-scale variation in biomass and the differential amounts of information
+ in the face of the large number of zeros and different numbers of sampling
+ points in each grid cell.
+\end_layout
+
+\begin_layout Standard
+Note that 
+\begin_inset Formula $m_{p}(s)$
+\end_inset
+
+ is likely to be quite smooth spatially, at least for the PLS data, because
+ when a patch is occupied by a given taxon, the tree is likely to be of
+ adult size, regardless of whether the tree is common in the grid cell.
+ So most of the spatial variation in biomass may be determined by variability
+ in occupancy.
+ The potential biomass is meant to correct for the fact that density and
+ tree size may vary somewhat, but probably not drastically, across the domain.
+\end_layout
+
+\begin_layout Standard
+This model is fit to both PLS and FIA data.
+ For PLS, we have a large number of points in each grid cell, while for
+ FIA we have a small (1-XX FIA plots per cell) number.
+ 
+\end_layout
+
+\begin_layout Standard
+We fit the two component models using the penalized splines to model the
+ spatial variation, with the fitting done by the numerically robust generalized
+ additive modeling (GAM) methodology implemented in the R package mgcv.
+ 
+\end_layout
+
+\begin_layout Standard
+[discuss possible oversmoothing]
+\end_layout
+
+\begin_layout Standard
+As discussed in Wood (XXXX), one can derive a quasi-Bayesian approach and
+ simulate draws from the quasi-posterior as follows: xxxxx.
+ 
+\end_layout
+
+\begin_layout Standard
+We combined draws from the occupancy and potential biomass processes to
+ produce biomass draws for each taxon and for total biomass.
+ 
+\end_layout
+
+\begin_layout Standard
+Note that one major drawback of this methodology is that the individual
+ taxon estimates are not constrained to add to a reasonable total biomass
+ because the taxa are fit individually.
+ Further, as was the case in our related modeling of composition, we do
+ not capture correlations between taxa in part to reduce computational bottlenec
+ks and in part 
+\end_layout
+
+\begin_layout Standard
+We fit a Bayesian statistical model to the data, with two primary goals:
+\end_layout
+
+\begin_layout Enumerate
+To estimate composition on a regular grid across the entire domain, filling
+ gaps where no data are available, and
+\end_layout
+
+\begin_layout Enumerate
+To quantify uncertainty in composition at all locations.
+ Even in grid cells and townships with data, we wish to quantify uncertainty
+ because the empirical proportions represent estimates of the true proportions
+ that could be calculated using the full population of all the trees in
+ a grid cell or township.
+\end_layout
+
+\begin_layout Standard
+
+\color red
+At a high level, the statistical model estimates composition across the
+ domain, even in locations with sparse or no data, by combining the raw
+ composition data with the assumption that composition varies in a smooth
+ spatial fashion across the domain.
+ The information in the data is quantified by the data model, also known
+ as the likelihood.
+ The assumption of smoothness is built into the model by representing the
+ true unknown spatially-varying composition using a statistical spatial
+ process representation that induces smoothing of estimates across nearby
+ locations.
+ This spatial process representation is a form of prior distribution and
+ is a function of model parameters called hyperparameters that determine
+ the correlation structure of the process and are also estimated based on
+ the data.
+ 
+\end_layout
+
+\begin_layout Standard
+The result of fitting the Bayesian model via Markov chain Monte Carlo (MCMC)
+ is a set of representative samples from the posterior distribution for
+ the composition in the 23 taxonomic groupings at each of the grid cells.
+ These samples are the data product (described further in the Section 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sec:Data-product"
+
+\end_inset
+
+) and can be used in subsequent analyses.
+ The mean and standard deviation of the samples for each pair of cell and
+ taxon represent our best estimate (i.e., prediction) of composition and a
+ Bayesian 
+\begin_inset Quotes eld
+\end_inset
+
+standard error
+\begin_inset Quotes erd
+\end_inset
+
+ quantifying the uncertainty in the estimate.
+ 
+\end_layout
+
+\begin_layout Standard
+
+\color red
+In the remainder of this section we provide the technical specification
+ of the model and of the computations involved in fitting the model.
+\end_layout
+
+\begin_layout Subsection
+Computation
+\end_layout
+
+\begin_layout Subsection
+Assessment of smoothing
+\end_layout
+
+\begin_layout Chunk
+
+\end_layout
+
+\begin_layout Section
+Scientific Results
+\end_layout
+
+\begin_layout Section
+Data product
+\begin_inset CommandInset label
+LatexCommand label
+name "sec:Data-product"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The final data product is a dataset that contains 250 posterior samples
+ of the proportions of each of the 23 tree taxa at each grid cell in the
+ states in our domain of the northeastern United States.
+\end_layout
+
+\begin_layout Standard
+For this final data product, we ran the model using the CAR specification
+ 
+\color red
+with all of the data (including the data held out in the model comparison
+ analyses)
+\color inherit
+ for 150,000 iterations with the same burn-in and subsampling details as
+ described in Section 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sec:Model-comparison"
+
+\end_inset
+
+.
+ Based on graphical checks and calculation of effective sample size values,
+ mixing was generally reasonable, but for some of the hyperparameters was
+ relatively slow, particularly for less common taxa.
+ Despite this, mixing for the variables of substantive interest -- the proportio
+ns -- was good, with effective sample sizes for the final product generally
+ near 250.
+\end_layout
+
+\begin_layout Standard
+Maps of estimated composition for the full domain for several taxa of substantiv
+e interest illustrate the results, contrasting the raw data proportions,
+ the posterior means, and posterior standard deviations as pointwise estimates
+ of uncertainty (Fig.
+ 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:select_maps"
+
+\end_inset
+
+).
+ We also present the posterior means for all 23 taxa (Fig.
+ 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:all_predictions"
+
+\end_inset
+
+).
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+hspace{4mm}
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+hspace{4mm}
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+hspace{3.5mm}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Empirical proportions from raw data (column 1), predictions in the form
+ of posterior means (column 2) and uncertainty estimates in the form of
+ posterior standard deviations -- representing standard errors of prediction
+ (column 3) for select taxa.
+ 
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:select_maps"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Predictions (posterior means) for all taxa over the entire domain.
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:all_predictions"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The data product is publicly available at the 
+\color red
+NIS Data Portal 
+\color inherit
+under the CC BY 4.0 license as version 1.0 as of January 2016 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+citep{paci:etal:data:2016}
+\end_layout
+
+\end_inset
+
+.
+ The product is in the form of a netCDF-4 file, with dimensions x-coordinate,
+ y-coordinate, and MCMC iteration.
+ There is one variable per taxon.
+ In addition, dynamic visualizations of the product using the Shiny tool
+ are available at 
+\begin_inset CommandInset href
+LatexCommand href
+target "https://www3.nd.edu/~paleolab/paleonproject/maps"
+
+\end_inset
+
+.
+ The PalEON Project (in particular the first author) will continue to maintain
+ this product, releasing new versions as additional data in Illinois, Indiana
+ and Ohio are digitized.
+ Note that digitization of data from Illinois and Indiana is ongoing, and
+ digitization of additional data from Ohio is planned as well.
+ As a result, at some point we expect to have complete data for the midwestern
+ half of the domain.
+ 
+\end_layout
+
+\begin_layout Section
+Discussion
+\begin_inset CommandInset label
+LatexCommand label
+name "sec:Discussion"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\color red
+A key advance of this work over prior reconstructions of settlement-era
+ vegetation lies in the estimates of uncertainty across the spatial domain.
+ These estimates of uncertainty include the sampling uncertainty within
+ grid cells (as do the within-grid cell estimates of uncertainty available
+ from the raw proportions), but, because this is a spatial model, predictions
+ and their associated uncertainty estimates are also informed by the information
+ content of nearby cells.
+ The maps of standard errors across species (Fig.
+ 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:select_maps"
+
+\end_inset
+
+, third column) highlight the advantages of this approach in areas of high
+ data coverage (Minnesota, Wisconsin, Michigan) and in areas of sparse coverage
+ (e.g., Illinois, Indiana, parts of Ohio).
+ Where there are not large gaps in the data, the model provides low and
+ fairly smooth estimates of uncertainty.
+ Uncertainty is generally higher in the eastern subdomain than in the areas
+ of the midwestern subdomain with high data coverage because of missing
+ townships and lower sampling density even in townships with data.
+ In areas of sparse coverage and in areas with low tree density (e.g., southwester
+n Minnesota), the standard error of our estimates increases appropriately.
+ Nevetheless, these uncertainties surround reasonable estimates of trends
+ in composition.
+ For example, the model does a good job of capturing the oak ecotone in
+ Indiana and Illinois, representing a shift from oak savannas and woodlands
+ to closed mesic forests (Fig.
+ 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:select_maps"
+
+\end_inset
+
+).
+ Experiment 1 showed that both models predicted composition at cells with
+ no data reasonably well, mimicking the case of sparsely sampled data and
+ giving confidence in the broad spatial patterns predicted in more poorly
+ sampled regions, particularly those with regular, but sparse sampling that
+ mimic the experiment (Illinois and Indiana, but not Ohio).
+ The apparent blockiness of uncertainty estimates in a few places such as
+ Ohio is caused by spatial gaps and variations in sampling resolution.
+ Absolute uncertainty generally increases with abundance for all taxa (Fig.
+ 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:select_maps"
+
+\end_inset
+
+, column 3).
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Note
+status open
+
+\begin_layout Itemize
+The gridded raw count data for the western subdomain and data aggregated
+ to township for the eastern subdomain (NIS Data Portal #XXX) that provides
+ the input data for the product described in this work.
+ Note that we cannot provide the raw data at point locations because of
+ limitations specified in the data use agreements under which we have access
+ to the data.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section*
+Author contributions
+\end_layout
+
+\begin_layout Standard
+CJP, and [JZ, XF] developed the statistical model and code.
+ CJP carried out the model comparison and created the data product.
+ CJP and CVC wrote the paper with feedback and editing from SJG, etc..
+ SJG, JAP, CVC, DJM, JSM, and JWW led the processing and analysis of the
+ PLS and TPS data and assisted with interpretation of results.
+ 
+\end_layout
+
+\begin_layout Section*
+Acknowledgments
+\end_layout
+
+\begin_layout Standard
+The authors are deeply indebted to all of the researchers over the years
+ who have preserved, collected, and digitized survey records, in particular
+ John Burk, Jim Dyer, Peter Marks, Robert McIntosh, Ed Schools, Ted Sickley,
+ Ronald Stuckey, and the Ohio Biological Survey.
+ We thank Madeline Ruid, Benjamin Seliger, Morgan Ripp and Daniel Handel
+ for processing of the southern Michigan data.
+ Indiana and Illinois data were made possible through the hard work of many
+ Notre Dame undergraduates in the McLachlan lab.
+ This work was carried out by the PalEON Project with support from the National
+ Science Foundation MacroSystems Program through grants EF-1065702, EF-1065656,
+ DEB-1241874 and DEB-1241868 and from the Notre Dame Environmental Change
+ Initiative.
+ 
+\end_layout
+
+\begin_layout Standard
+Thanks USFS / FIA MOU.
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+bibliographystyle{/accounts/gen/vis/paciorek/latex/RSSstylefile/Chicago}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+bibliography{/accounts/gen/vis/paciorek/bibfiles/abbrev.stat,/accounts/gen/vis/pa
+ciorek/bibfiles/abbrev.other,/accounts/gen/vis/paciorek/bibfiles/spatstat,/accoun
+ts/gen/vis/paciorek/bibfiles/statgeneral,/accounts/gen/vis/paciorek/bibfiles/pac
+iorek,/accounts/gen/vis/paciorek/bibfiles/ecology,/accounts/gen/vis/paciorek/res
+earch/jmac/composition_paper/goring_intro}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_body
+\end_document
