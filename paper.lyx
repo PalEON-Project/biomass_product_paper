@@ -1054,6 +1054,21 @@ Allometric scaling
  6 ]
 \end_layout
 
+\begin_layout Standard
+For some taxa, the literature provides only 1-2 allometries.
+ There is still uncertainty from inter-tree variability in the component
+ data for the individual allometry(ies) but we are basing estimates on limited
+ data from 1-2 individual sites.
+ To assess sensitivity to this as well as sensitivity to the fact that the
+ PLS data are aggregated to coarser taxonomic resolution (because of uncertainty
+ in translating surveyor common names to modern taxonomy) we also first
+ translate the FIA species level identification to the PalEON taxonomic
+ groupings (see above) and then assign allometries, based on expert judgement
+ of which of the available allometries to use for a given PalEON taxonomic
+ grouping.
+ 
+\end_layout
+
 \begin_layout Section
 Statistical model
 \begin_inset CommandInset label
